@@ -54,7 +54,7 @@ const Formulario = ({ crearCita }) => {
 
     //Reiniciar el form
     //Copiamos todas las propiedades vacias que teniamos cuando inicializamos el state con el modificador del state que es actualizarCita.
-    //La razón por la que se reinicia es porque a los inputs le colocamos los values con el mismo nombre que las propiedades de un cita 
+    //La razón por la que se reinicia es porque a los inputs le colocamos los values con el mismo nombre que las propiedades de un cita.
     actualizarCita({
       mascota: "",
       propietario: "",
