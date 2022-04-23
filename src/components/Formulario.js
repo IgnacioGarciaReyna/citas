@@ -27,7 +27,7 @@ const Formulario = () => {
 
   //Extraemos los valores
   //Utilizamos structuring porque la otra forma sería: const mascota = cita.mascota; const propietario = cita.propietario; etc.
-  //Se recomienda agregar los nombres de las const como value = {'nombreDeLaConst'} en los inputs.
+  //Se recomienda agregar los nombres de las const como value = {'nombreDeLaConst'} en los inputs. Esto nos va a permitir mas adelante resetear el formulario.
   const {mascota, propietario, fecha, hora, sintomas} = cita
 
   return (
