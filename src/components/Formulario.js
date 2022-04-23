@@ -1,5 +1,7 @@
 import React, { Fragment, useState } from "react";
-
+//Importamos uuid
+//Utilicé una importación diferente a la del video, porque esa no funcionaba.
+import { v4 as uuid } from 'uuid';
 const Formulario = () => {
   const [cita, actualizarCita] = useState({
     mascota: "",
@@ -9,8 +11,6 @@ const Formulario = () => {
     sintomas: "",
   });
 
-  //Segundo state
-  //Inicia como false porque cuando inicia no hay error
   const [error, actualizarError] = useState(false);
 
   const actualizarState = (e) => {
@@ -23,13 +23,10 @@ const Formulario = () => {
   const { mascota, propietario, fecha, hora, sintomas } = cita;
 
   const submitCita = (e) => {
+    //Previene la acción default del onSubmit
     e.preventDefault();
 
-    //Como usamos destructuring podemos usar el name directamente, y no cita.mascota o cita.propietario
-    console.log(mascota);
-
     //Validación
-    //el .trim() elimina espacios en blanco en el string que ingresa el usuario.
     if (
       mascota.trim() === "" ||
       propietario.trim() === "" ||
@@ -37,16 +34,18 @@ const Formulario = () => {
       hora.trim() === "" ||
       sintomas.trim() === ""
     ) {
-      //Podriamos consolearlo, pero ningún usuario utiliza la consola, debemos utilizar un segundo state.
-      // console.log("Hay un error");
-
-      //En caso de que pase la validación le damos true. En este caso no utilizamos llaves como en actualizarCita porque en este caso el valor es un booleano, no un objeto.
-      actualizarError(true)
+      actualizarError(true);
       //Agregamos un return para que el código no se siga ejecutando.
       return;
     }
 
+    //Eliminar el mensaje de error
+    actualizarError(false);
+
     //Asignar un ID
+    //Vamos a utilizar uuid para generar ids automáticos, la instalamos con "npm i uuid"
+    cita.id = uuid();
+    console.log(cita);
 
     //Crear la cita
 
@@ -61,7 +60,9 @@ const Formulario = () => {
       alerta-error es una clase que viene en la hoja de estilos
       En caso de que sea false queremos que sea null para que no imprima nada. */}
 
-    {error? <p className="alerta-error">Todos los campos son obligatorios</p> :null}
+      {error ? (
+        <p className="alerta-error">Todos los campos son obligatorios</p>
+      ) : null}
 
       <form onSubmit={submitCita}>
         <label>Nombre Mascota</label>
