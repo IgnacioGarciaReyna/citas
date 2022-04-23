@@ -1,9 +1,8 @@
 import React, { Fragment, useState } from "react";
 import { v4 as uuid } from "uuid";
 
-//Podriamos pasar crearCita como 'const Formulario = (props)' y luego en el cuerpo acceder como props.crearCita, pero directamente aplicamos destructuring.
 const Formulario = ({ crearCita }) => {
-  //State de Citas
+  //State de cita
   const [cita, actualizarCita] = useState({
     mascota: "",
     propietario: "",
@@ -54,6 +53,15 @@ const Formulario = ({ crearCita }) => {
     crearCita(cita);
 
     //Reiniciar el form
+    //Copiamos todas las propiedades vacias que teniamos cuando inicializamos el state con el modificador del state que es actualizarCita.
+    //La razón por la que se reinicia es porque a los inputs le colocamos los values con el mismo nombre que las propiedades de un cita 
+    actualizarCita({
+      mascota: "",
+      propietario: "",
+      fecha: "",
+      hora: "",
+      sintomas: ""
+    });
   };
 
   return (
