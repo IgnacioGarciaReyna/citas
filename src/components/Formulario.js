@@ -1,11 +1,6 @@
-//Importamos useState que nos permite tener un state en react
 import React, { Fragment, useState } from "react";
 
 const Formulario = () => {
-  //Crear State de Citas
-  //"cita" tiene toda la información del state y "actualizarCita" es la función que reescribe en el objeto, en js lo hariamos con un eventlistener, pero en React tenemos eventos, en este caso onChange.
-  //Creamos un objeto para poder agregar todos los campos que tenemos en el formulario. Vamos a leer cada input por su name.
-  //El objeto inicia con ciertas propiedades. Esas propiedades son strings vacios porque los campos del formulario inician vacios.
   const [cita, actualizarCita] = useState({
     mascota: "",
     propietario: "",
@@ -14,10 +9,26 @@ const Formulario = () => {
     sintomas: "",
   });
 
-  //Función que se ejecuta cuando el usuario escribe un input
-  const actualizarState = () => {
-    console.log("Escribiendo");
+  //Le pasamos el evento a la arrow function, es decir, cada vez que se produce el onChange (cada vez que cambia un campo), se pasa un evento.
+  //Este evento tiene mucha información, por ejemplo, si queres saber en que campo estás escribiendo usas e.target.name, para saber lo que contiene el campo e.target.value.
+  //Usamos actualizarCita que es la función que actualiza el state, no podemos poner cita.mascota = e.target.value por que no sigue las reglas de React.
+  const actualizarState = e => {
+    // console.log(e.target.name);
+    // console.log(e.target.value);
+    
+    //Como es un objeto usamos llaves
+    //Dentro usamos array destructuring y le decimos que la propiedad que sea igual al name va a tener un valor value. 
+    //Utilizamos el spread operator para crear una copia del objeto cita que se creó con el evento anterior.
+    actualizarCita({
+      ...cita,
+      [e.target.name] : e.target.value
+    })
   };
+
+  //Extraemos los valores
+  //Utilizamos structuring porque la otra forma sería: const mascota = cita.mascota; const propietario = cita.propietario; etc.
+  //Se recomienda agregar los nombres de las const como value = {'nombreDeLaConst'} en los inputs.
+  const {mascota, propietario, fecha, hora, sintomas} = cita
 
   return (
     <Fragment>
@@ -30,6 +41,7 @@ const Formulario = () => {
           className="u-full-width"
           placeholder="Nombre de la mascota"
           onChange={actualizarState}
+          value={mascota}
         />
         <label>Nombre Propietario</label>
         <input
@@ -38,6 +50,7 @@ const Formulario = () => {
           className="u-full-width"
           placeholder="Nombre del dueño"
           onChange={actualizarState}
+          value={propietario}
         />
         <label>Fecha</label>
         <input
@@ -45,6 +58,7 @@ const Formulario = () => {
           name="fecha"
           className="u-full-width"
           onChange={actualizarState}
+          value={fecha}
         />
         <label>Hora</label>
         <input
@@ -52,12 +66,14 @@ const Formulario = () => {
           name="hora"
           className="u-full-width"
           onChange={actualizarState}
+          value={hora}
         />
         <label>Síntomas</label>
         <textarea
           name="sintomas"
           className="u-full-width"
           onChange={actualizarState}
+          value={sintomas}
         ></textarea>
         <button type="submit" className="u-full-width button-primary">
           Agregar cita
