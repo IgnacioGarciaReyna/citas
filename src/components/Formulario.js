@@ -1,8 +1,9 @@
 import React, { Fragment, useState } from "react";
-//Importamos uuid
-//Utilicé una importación diferente a la del video, porque esa no funcionaba.
-import { v4 as uuid } from 'uuid';
-const Formulario = () => {
+import { v4 as uuid } from "uuid";
+
+//Podriamos pasar crearCita como 'const Formulario = (props)' y luego en el cuerpo acceder como props.crearCita, pero directamente aplicamos destructuring.
+const Formulario = ({ crearCita }) => {
+  //State de Citas
   const [cita, actualizarCita] = useState({
     mascota: "",
     propietario: "",
@@ -13,6 +14,7 @@ const Formulario = () => {
 
   const [error, actualizarError] = useState(false);
 
+  //Función para cada vez que el usuario escribe en un input
   const actualizarState = (e) => {
     actualizarCita({
       ...cita,
@@ -20,8 +22,10 @@ const Formulario = () => {
     });
   };
 
+  //Extraer los valores
   const { mascota, propietario, fecha, hora, sintomas } = cita;
 
+  //Agregar cita
   const submitCita = (e) => {
     //Previene la acción default del onSubmit
     e.preventDefault();
@@ -43,11 +47,11 @@ const Formulario = () => {
     actualizarError(false);
 
     //Asignar un ID
-    //Vamos a utilizar uuid para generar ids automáticos, la instalamos con "npm i uuid"
     cita.id = uuid();
     console.log(cita);
 
     //Crear la cita
+    crearCita(cita);
 
     //Reiniciar el form
   };
@@ -55,10 +59,6 @@ const Formulario = () => {
   return (
     <Fragment>
       <h2>Crear Cita</h2>
-
-      {/* Recordemos que acá no se puede escribir un if, por lo tanto se escribe un ternario.
-      alerta-error es una clase que viene en la hoja de estilos
-      En caso de que sea false queremos que sea null para que no imprima nada. */}
 
       {error ? (
         <p className="alerta-error">Todos los campos son obligatorios</p>
