@@ -6,12 +6,18 @@ function App() {
   //Arreglo de citas
   const [citas, guardarCitas] = useState([]);
 
-
   const crearCita = (cita) => {
     //Función que modifica el state
-    guardarCitas([
-      ...citas, cita
-    ])
+    guardarCitas([...citas, cita]);
+  };
+
+  //Función que elimina una cita por su id
+  const eliminarCita = (id) => {
+    //Creamos un nuevo arreglo
+    //Cuando usamos filter pasan los elementos que cumplan la condición, en este caso queremos mantener a todos los que tengan un id distinto al que queremos eliminar.
+    const nuevasCitas = citas.filter((cita) => cita.id !== id);
+    //Como nuevasCitas ya es un arreglo, no necesitas los corchetes como antes cuando guardabas una cita sola.
+    guardarCitas(nuevasCitas);
   };
 
   return (
@@ -20,21 +26,14 @@ function App() {
       <div className="container">
         <div className="row">
           <div className="one-half column">
-            <Formulario 
-              crearCita={crearCita}
-            />
+            <Formulario crearCita={crearCita} />
           </div>
           <div className="one-half column">
             <h2>Administra tus citas</h2>
-            {/* Vamos a utilizar un map para recorrer el array de citas. No se utiliza el forEach. 
-            Cada cita del array se la pasamos entre llaves.
-            Recordar siempre que se itera de esta forma debemos pasarle un key, en este caso es el cita.id.
-            */}
-            {citas.map(cita => (
-              <Cita
-                key={cita.id}
-                cita={cita}
-              />
+            {/* Le pasamos la función eliminarCita
+             */}
+            {citas.map((cita) => (
+              <Cita key={cita.id} cita={cita} eliminarCita={eliminarCita} />
             ))}
           </div>
         </div>
