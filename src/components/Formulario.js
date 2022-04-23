@@ -9,6 +9,10 @@ const Formulario = () => {
     sintomas: "",
   });
 
+  //Segundo state
+  //Inicia como false porque cuando inicia no hay error
+  const [error, actualizarError] = useState(false);
+
   const actualizarState = (e) => {
     actualizarCita({
       ...cita,
@@ -18,15 +22,31 @@ const Formulario = () => {
 
   const { mascota, propietario, fecha, hora, sintomas } = cita;
 
-  //Cuando el usuario presiona el agregar cita
-  //onSubmit tiene como default enviar los datos del formulario con el método get y se coloca un query string en la barra de busqueda:"http://localhost:3000/?mascota=&propietario=&fecha=&hora=&sintomas=". Por eso, se escribe un preventDefault al evento, para que no realice esta acción.
-  const submitCita = e => {
+  const submitCita = (e) => {
     e.preventDefault();
-    // console.log(e);
 
-    //Validar: Si tuvieramos una base de datos, no insertas primero en la base de datos y despues validas.
+    //Como usamos destructuring podemos usar el name directamente, y no cita.mascota o cita.propietario
+    console.log(mascota);
 
-    //Asignar un ID: Necesitas un key cuando mostrás registros repetidos en React.
+    //Validación
+    //el .trim() elimina espacios en blanco en el string que ingresa el usuario.
+    if (
+      mascota.trim() === "" ||
+      propietario.trim() === "" ||
+      fecha.trim() === "" ||
+      hora.trim() === "" ||
+      sintomas.trim() === ""
+    ) {
+      //Podriamos consolearlo, pero ningún usuario utiliza la consola, debemos utilizar un segundo state.
+      // console.log("Hay un error");
+
+      //En caso de que pase la validación le damos true. En este caso no utilizamos llaves como en actualizarCita porque en este caso el valor es un booleano, no un objeto.
+      actualizarError(true)
+      //Agregamos un return para que el código no se siga ejecutando.
+      return;
+    }
+
+    //Asignar un ID
 
     //Crear la cita
 
@@ -37,8 +57,12 @@ const Formulario = () => {
     <Fragment>
       <h2>Crear Cita</h2>
 
-      {/* Vamos a agregar las acciones que realiza el button cuando lo presionamos.
-      En js, cuando tenés un form, usas un addEventListener y luego un submit, lo mismo pasa en React... Debemos agregar un onSubmit en el form y dentro le pasamos una función. */}
+      {/* Recordemos que acá no se puede escribir un if, por lo tanto se escribe un ternario.
+      alerta-error es una clase que viene en la hoja de estilos
+      En caso de que sea false queremos que sea null para que no imprima nada. */}
+
+    {error? <p className="alerta-error">Todos los campos son obligatorios</p> :null}
+
       <form onSubmit={submitCita}>
         <label>Nombre Mascota</label>
         <input
