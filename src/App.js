@@ -20,6 +20,11 @@ function App() {
     guardarCitas(nuevasCitas);
   };
 
+  //Mensaje condicional
+  //Se podría hacer con un if pero es mas facil con un ternario.
+  //Esta condición también se usa cuando tenes que hacer que se muestre un menú u otro dependiendo si el usuario inició sesión o no.
+  const titulo = citas.length === 0 ? 'No hay citas' : 'Administra tus citas';
+
   return (
     <Fragment>
       <h1>Administrador de pacientes</h1>
@@ -29,7 +34,8 @@ function App() {
             <Formulario crearCita={crearCita} />
           </div>
           <div className="one-half column">
-            <h2>Administra tus citas</h2>
+            {/* Agregarmos la variable de js para el titulo condicional */}
+            <h2>{titulo}</h2>
             {/* Le pasamos la función eliminarCita
              */}
             {citas.map((cita) => (
