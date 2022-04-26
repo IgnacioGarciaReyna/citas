@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 //Extraemos eliminarCita con destructuring
 const Cita = ({cita, eliminarCita}) => (
@@ -19,5 +20,13 @@ const Cita = ({cita, eliminarCita}) => (
         >Eliminar &times;</button>
     </div>
 );
+
+//El key no se documenta
+//Se documentan los otros props
+//Se agrega isRequired si es obligatorio
+Cita.propTypes = {
+    cita: PropTypes.object.isRequired,
+    eliminarCita: PropTypes.func.isRequired
+}
  
 export default Cita;

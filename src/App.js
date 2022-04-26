@@ -1,31 +1,24 @@
-//Importamos useEffect
 import React, { Fragment, useState, useEffect } from "react";
 import Formulario from "./components/Formulario";
 import Cita from "./components/Cita";
 
+//Los propTypes sirven para documentar el código, para que si viene alguien a dar mantenimiento al código, sepa de que tipo son las variables.
+//Es una forma de hacer type checking a tus componentes
+
 function App() {
   //Citas en local storage
-  //Primero vemos si hay citas en localStorage.
-  //Como localStorage solo almacena strings, vamos a agregar JSON.parse que convierte ese arreglo que está almacenado como string.
   let citasIniciales = JSON.parse(localStorage.getItem("citas"));
-  //Si no hay citas iniciales (null) citas iniciales va a ser un arreglo vacio.
   if (!citasIniciales) {
     citasIniciales = [];
   }
 
   //Arreglo de citas
-  //Una vez que obtuvimos el array de objetos de citasIniciales del localStorage o en su defecto el array vacio, este pasa a ser el valor inicial de el array 'citas' del useState.
   const [citas, guardarCitas] = useState(citasIniciales);
 
-  //useEffect siempre es una arrow function
-  //useEffect se ejecuta cuando el componente está listo pero también cuando hay cambios en el componente.
-  //Le pasamos citas entre corchetes para decirle que cada vez que citas cambie, se ejecute el useEffect.
-  //Para decirle que se ejecute una sola vez, hay que pasarle un arreglo vacio. Por ejemplo, si no se lo pasas y haces una consulta a una API se va a hacer un ciclo.
-  //Lo vamos a utilizar para colocar las citas en el storage cada vez que se agreguen citas o se eliminen citas, cada vez que el state de citas cambie.
-  //Sirve para estar pendiente a ciertos cambios y reaccionar a ellos.
+  //Se ejectua cada vez que se produzca un cambio en 'citas'
   useEffect(() => {
-    //Acá también tenemos disponible a citasIniciales.
-    //Como tenemos 'citas' como dependecia, cuando se produzca un cambio en el arreglo 'citas' de el state, se las mandamos a citasIniciales del localStorage. Si no, le pasamos un arreglo vacio.
+    //Como hay un problema la dependencia 'citasIniciales', lo declaramos dentro del componente.
+    let citasIniciales = JSON.parse(localStorage.getItem("citas"));
     if (citasIniciales) {
       localStorage.setItem("citas", JSON.stringify(citas));
     } else {

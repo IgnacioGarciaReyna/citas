@@ -1,5 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { v4 as uuid } from "uuid";
+//Importamos propTypes que viene en React
+import PropTypes from "prop-types";
 
 const Formulario = ({ crearCita }) => {
   //State de cita
@@ -53,8 +55,6 @@ const Formulario = ({ crearCita }) => {
     crearCita(cita);
 
     //Reiniciar el form
-    //Copiamos todas las propiedades vacias que teniamos cuando inicializamos el state con el modificador del state que es actualizarCita.
-    //La razón por la que se reinicia es porque a los inputs le colocamos los values con el mismo nombre que las propiedades de un cita.
     actualizarCita({
       mascota: "",
       propietario: "",
@@ -121,5 +121,12 @@ const Formulario = ({ crearCita }) => {
     </Fragment>
   );
 };
+
+//Normalmente los componentes se documentan abajo de todo, antes del export default.
+//Se inicia con el nombre del componente.
+//Si hay algún problema con los tipos, sale un error en consola.
+Formulario.propTypes = {
+  crearCita: PropTypes.func.isRequired
+}
 
 export default Formulario;
